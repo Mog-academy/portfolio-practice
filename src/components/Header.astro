@@ -1,0 +1,80 @@
+---
+import { site } from "../data/site";
+
+interface Props {
+  activePath?: string;
+}
+
+const { activePath = "/" } = Astro.props;
+---
+
+<header class="fixed top-0 w-full z-50 bg-surface border-b border-tertiary">
+  <div class="h-20 w-full px-frame flex items-center justify-between gap-4">
+    <a href="/" class="flex items-center gap-2 shrink-0">
+      <span class="w-2 h-2 bg-primary block" aria-hidden="true"></span>
+      <span class="font-display text-headline-md tracking-tighter uppercase">
+        {site.brand}
+      </span>
+    </a>
+
+    <nav class="hidden md:flex items-center gap-10" aria-label="Primary">
+      {
+        site.nav.map((item) => {
+          const isActive =
+            item.href === "/"
+              ? activePath === "/"
+              : activePath.startsWith(item.href);
+          return (
+            <a
+              href={item.href}
+              aria-current={isActive ? "page" : undefined}
+              class:list={[
+                "text-label-caps transition-colors",
+                isActive
+                  ? "text-primary font-bold"
+                  : "text-on-surface-variant hover:text-primary",
+              ]}
+            >
+              {item.label}
+            </a>
+          );
+        })
+      }
+    </nav>
+
+    <a
+      href="/contact"
+      class="w-8 h-8 bg-primary flex items-center justify-center shrink-0"
+      aria-label="Contact"
+    >
+      <span class="material-symbols-outlined text-on-primary text-[18px]"
+        >person</span
+      >
+    </a>
+  </div>
+
+  <nav
+    class="md:hidden border-t border-tertiary px-frame py-3 flex gap-6 overflow-x-auto"
+    aria-label="Mobile"
+  >
+    {
+      site.nav.map((item) => {
+        const isActive =
+          item.href === "/"
+            ? activePath === "/"
+            : activePath.startsWith(item.href);
+        return (
+          <a
+            href={item.href}
+            class:list={[
+              "text-label-caps whitespace-nowrap",
+              isActive ? "text-primary" : "text-on-surface-variant",
+            ]}
+          >
+            {item.label}
+          </a>
+        );
+      })
+    }
+  </nav>
+</header>

@@ -1,0 +1,155 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ProjectTile from "../../components/ProjectTile.astro";
+import { site } from "../../data/site";
+import { projects, categories } from "../../data/projects";
+---
+
+<BaseLayout
+  activePath="/projects"
+  title={`Projects — ${site.name}`}
+  description="Selected architectural visualization and spatial storytelling projects."
+>
+  <div class="flex flex-col w-full bg-surface" data-projects-page>
+    <section
+      class="w-full px-frame py-20 flex flex-col gap-8 border-b border-tertiary"
+    >
+      <div class="flex justify-between items-end gap-6">
+        <h1
+          class="text-display-xl text-on-surface uppercase tracking-tighter w-full max-w-4xl"
+        >
+          Projects
+        </h1>
+        <div class="hidden md:flex flex-col items-end gap-2 text-right">
+          <span class="text-label-caps text-on-surface-variant uppercase"
+            >Index</span
+          >
+          <span class="text-label-mono text-on-surface"
+            >{projects.length} Works</span
+          >
+        </div>
+      </div>
+      <div class="w-full h-px bg-tertiary"></div>
+      <div
+        class="flex flex-col md:flex-row justify-between items-start md:items-center w-full gap-6"
+      >
+        <div class="flex flex-wrap gap-6" data-filter-group>
+          {
+            categories.map((cat, i) => (
+              <button
+                type="button"
+                data-filter={cat}
+                class:list={[
+                  "text-label-caps uppercase transition-colors pb-1",
+                  i === 0
+                    ? "text-on-surface border-b border-tertiary"
+                    : "text-on-surface-variant hover:text-on-surface",
+                ]}
+              >
+                {cat}
+              </button>
+            ))
+          }
+        </div>
+        <div class="flex gap-4 items-center">
+          <span class="text-label-caps text-on-surface-variant uppercase"
+            >Sort By</span
+          >
+          <select
+            data-sort
+            class="text-label-mono text-on-surface bg-transparent border-b border-tertiary outline-none py-1 cursor-pointer"
+          >
+            <option value="newest">Date (Newest)</option>
+            <option value="oldest">Date (Oldest)</option>
+            <option value="title">Title (A-Z)</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <section class="w-full px-frame py-20">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter" data-project-grid>
+        {
+          projects.map((project) => (
+            <div
+              class:list={[
+                project.span === "wide" ? "md:col-span-8" : "md:col-span-4",
+                "col-span-1",
+              ]}
+              data-project-item
+              data-category={project.category}
+              data-year={project.year}
+              data-title={project.title}
+            >
+              <ProjectTile
+                project={project}
+                imageHeight={
+                  project.span === "wide"
+                    ? "h-[360px] md:h-[500px]"
+                    : "h-[360px] md:h-[400px]"
+                }
+              />
+            </div>
+          ))
+        }
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<script>
+  const page = document.querySelector("[data-projects-page]");
+  if (page) {
+    const buttons = page.querySelectorAll("[data-filter]");
+    const items = [...page.querySelectorAll("[data-project-item]")];
+    const grid = page.querySelector("[data-project-grid]");
+    const sort = page.querySelector("[data-sort]");
+    let active = "All";
+
+    const apply = () => {
+      items.forEach((item) => {
+        if (!(item instanceof HTMLElement)) return;
+        const cat = item.dataset.category ?? "";
+        const show = active === "All" || cat === active;
+        item.classList.toggle("hidden", !show);
+      });
+    };
+
+    const sortItems = (mode: string) => {
+      if (!(grid instanceof HTMLElement)) return;
+      const visible = items.filter((el) => el instanceof HTMLElement);
+      visible.sort((a, b) => {
+        const ae = a as HTMLElement;
+        const be = b as HTMLElement;
+        if (mode === "title") {
+          return (ae.dataset.title ?? "").localeCompare(be.dataset.title ?? "");
+        }
+        const ay = Number(ae.dataset.year ?? 0);
+        const by = Number(be.dataset.year ?? 0);
+        return mode === "oldest" ? ay - by : by - ay;
+      });
+      visible.forEach((el) => grid.appendChild(el));
+    };
+
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        if (!(btn instanceof HTMLElement)) return;
+        active = btn.dataset.filter ?? "All";
+        buttons.forEach((b) => {
+          if (!(b instanceof HTMLElement)) return;
+          const on = b.dataset.filter === active;
+          b.classList.toggle("text-on-surface", on);
+          b.classList.toggle("border-b", on);
+          b.classList.toggle("border-tertiary", on);
+          b.classList.toggle("text-on-surface-variant", !on);
+        });
+        apply();
+      });
+    });
+
+    sort?.addEventListener("change", (e) => {
+      const target = e.target;
+      if (target instanceof HTMLSelectElement) sortItems(target.value);
+    });
+  }
+</script>

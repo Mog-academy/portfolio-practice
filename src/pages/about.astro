@@ -1,0 +1,142 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Media from "../components/Media.astro";
+import { site } from "../data/site";
+import { projects } from "../data/projects";
+
+const portrait = projects.find((p) => p.slug === "skooni")?.cover ?? "";
+const ctaBg =
+  projects.find((p) => p.slug === "fortune-bay-residences")?.cover ?? portrait;
+---
+
+<BaseLayout
+  activePath="/about"
+  title={`About — ${site.name}`}
+  description={site.about.headline}
+>
+  <div class="flex flex-col w-full bg-surface">
+    <section class="w-full flex flex-col md:flex-row relative min-h-[80vh]">
+      <div
+        class="w-full md:w-1/2 px-frame py-10 md:py-32 bg-surface overflow-y-auto z-10 border-r border-tertiary/20"
+      >
+        <div class="max-w-[600px] mx-auto md:ml-auto md:mr-0 pt-10 md:pt-32 pb-20">
+          <h1 class="text-headline-lg text-on-surface mb-16 max-w-[400px]">
+            {site.about.headline}
+          </h1>
+          <div
+            class="space-y-12 font-display text-[22px] md:text-[24px] leading-[36px] text-on-surface-variant"
+          >
+            {site.about.paragraphs.map((p) => <p>{p}</p>)}
+          </div>
+          <div class="mt-24 pt-12 border-t border-tertiary">
+            <div class="text-label-caps text-on-surface mb-8 tracking-[0.2em]">
+              Contact & Inquiries
+            </div>
+            <div
+              class="flex flex-col gap-4 text-label-mono text-on-surface-variant"
+            >
+              <a
+                class="hover:text-primary transition-colors inline-block w-fit relative after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-px after:bottom-0 after:left-0 after:bg-primary after:origin-bottom-right after:transition-transform hover:after:scale-x-100 hover:after:origin-bottom-left"
+                href={`mailto:${site.contact.email}`}
+              >
+                {site.contact.email}
+              </a>
+              <span>{site.contact.phone}</span>
+              <span>
+                {site.contact.address.map((line) => (
+                  <>
+                    {line}
+                    <br />
+                  </>
+                ))}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="w-full md:w-1/2 h-[50vh] md:h-auto md:min-h-[80vh] md:sticky top-[8.5rem] md:top-20 bg-primary overflow-hidden flex items-center justify-center border-b md:border-b-0 border-tertiary/20 relative"
+      >
+        <Media
+          src={portrait}
+          alt={`${site.name} portrait placeholder`}
+          class="absolute inset-0 w-full h-full opacity-80 hover:opacity-100 contrast-125"
+        />
+        <div
+          class="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent pointer-events-none"
+        >
+        </div>
+      </div>
+    </section>
+
+    <section class="w-full px-frame py-24 md:py-40 bg-surface">
+      <div class="max-w-[1400px] mx-auto">
+        <div
+          class="flex flex-col md:flex-row justify-between items-start mb-20 gap-8"
+        >
+          <h2
+            class="text-display-xl text-on-surface uppercase tracking-tighter leading-none"
+          >
+            Practice
+          </h2>
+          <p
+            class="text-label-mono text-on-surface-variant max-w-[300px] md:text-right md:mt-4"
+          >
+            Credentials and focus areas — replace with your real profile when
+            ready.
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-x-gutter">
+          {
+            site.about.credentials.map((item, i) => (
+              <div class="border-t border-tertiary pt-6 flex flex-col gap-4">
+                <div class="flex justify-between items-start">
+                  <h3 class="text-label-caps text-on-surface">
+                    {String(i + 1).padStart(2, "0")}
+                  </h3>
+                  <div class="text-right">
+                    <h4 class="text-label-caps text-on-surface text-[16px] mb-1">
+                      {item.label}
+                    </h4>
+                    <p class="text-label-mono text-on-surface-variant text-[12px]">
+                      {item.value}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="w-full h-[60vh] bg-primary relative overflow-hidden flex items-center justify-center"
+    >
+      <div class="absolute inset-0 z-0">
+        <Media
+          src={ctaBg}
+          alt=""
+          class="opacity-30 contrast-150 mix-blend-screen"
+        />
+      </div>
+      <div class="relative z-10 text-center px-6">
+        <h2
+          class="text-headline-lg text-on-primary mb-8 max-w-[800px] mx-auto"
+        >
+          {site.about.ctaHeadline}
+        </h2>
+        <a
+          class="inline-flex items-center justify-center h-14 px-10 bg-on-primary text-primary text-label-caps hover:bg-surface-variant transition-colors group"
+          href="/contact"
+        >
+          {site.about.ctaLabel}
+          <span
+            class="material-symbols-outlined ml-2 text-[18px] group-hover:translate-x-1 transition-transform"
+            >arrow_forward</span
+          >
+        </a>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

@@ -1,0 +1,97 @@
+---
+import type { Project } from "../data/projects";
+import Media from "./Media.astro";
+
+interface Props {
+  projects: Project[];
+}
+
+const { projects } = Astro.props;
+---
+
+<section class="w-full py-24 bg-surface-container overflow-hidden">
+  <div class="px-frame mb-16 flex justify-between items-end gap-6">
+    <h2 class="text-headline-md text-on-surface uppercase tracking-tighter">
+      Featured Works
+    </h2>
+    <div class="flex gap-4">
+      <button
+        type="button"
+        data-carousel-prev
+        class="w-12 h-12 border border-tertiary flex items-center justify-center hover:bg-tertiary hover:text-on-primary transition-colors cursor-pointer group"
+        aria-label="Previous"
+      >
+        <span
+          class="material-symbols-outlined text-[20px] group-hover:text-on-primary"
+          >arrow_back</span
+        >
+      </button>
+      <button
+        type="button"
+        data-carousel-next
+        class="w-12 h-12 bg-tertiary text-on-primary flex items-center justify-center hover:bg-surface hover:text-tertiary hover:border hover:border-tertiary transition-colors cursor-pointer"
+        aria-label="Next"
+      >
+        <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+      </button>
+    </div>
+  </div>
+
+  <div
+    data-carousel-track
+    class="flex gap-gutter px-frame overflow-x-auto snap-x snap-mandatory pb-8"
+    style="scrollbar-width: none;"
+  >
+    {
+      projects.map((project) => (
+        <a
+          class="block w-[85vw] md:w-[60vw] lg:w-[45vw] shrink-0 snap-start group"
+          href={`/projects/${project.slug}`}
+        >
+          <div class="relative w-full aspect-[4/3] bg-tertiary overflow-hidden mb-6">
+            <Media
+              src={project.cover}
+              alt={project.title}
+              type={project.coverType}
+              class="opacity-80 group-hover:opacity-100 group-hover:scale-105"
+            />
+            <div class="absolute top-6 left-6 bg-surface px-3 py-1">
+              <span class="text-label-mono text-on-surface">{project.index}</span>
+            </div>
+          </div>
+          <div class="flex justify-between items-start">
+            <div>
+              <h3 class="font-display text-[24px] leading-8 text-on-surface group-hover:text-on-primary-fixed-variant transition-colors">
+                {project.title}
+              </h3>
+              <p class="text-label-caps text-on-surface-variant mt-2">
+                {project.category} / {project.location}
+              </p>
+            </div>
+            <span class="text-label-mono text-on-surface-variant">
+              {project.year}
+            </span>
+          </div>
+        </a>
+      ))
+    }
+  </div>
+</section>
+
+<script>
+  const track = document.querySelector("[data-carousel-track]");
+  const prev = document.querySelector("[data-carousel-prev]");
+  const next = document.querySelector("[data-carousel-next]");
+
+  if (track instanceof HTMLElement) {
+    const scrollByCard = (dir: number) => {
+      const card = track.querySelector("a");
+      const amount =
+        card instanceof HTMLElement ? card.offsetWidth + 24 : track.clientWidth * 0.8;
+      track.scrollBy({ left: dir * amount, behavior: "smooth" });
+    };
+
+    prev?.addEventListener("click", () => scrollByCard(-1));
+    next?.addEventListener("click", () => scrollByCard(1));
+  }
+</script>

@@ -1,0 +1,25 @@
+---
+import { site } from "../data/site";
+---
+
+<footer class="w-full bg-surface border-t border-tertiary mt-20">
+  <div
+    class="max-w-full px-frame py-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-8"
+  >
+    <div class="text-label-caps">
+      © {site.year} {site.name}
+    </div>
+    <div class="flex gap-10">
+      {
+        site.socials.map((social) => (
+          <a
+            class="text-label-caps text-on-surface-variant hover:text-primary transition-colors"
+            href={social.href}
+          >
+            {social.label}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</footer>

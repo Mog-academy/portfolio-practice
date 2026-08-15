@@ -1,0 +1,125 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import FeaturedCarousel from "../components/FeaturedCarousel.astro";
+import Media from "../components/Media.astro";
+import { site } from "../data/site";
+import { getFeaturedProjects } from "../data/projects";
+
+const featured = getFeaturedProjects();
+const heroImage = featured[0]?.cover ?? "/media/skooni/cover.png";
+const methodImage = featured[1]?.cover ?? heroImage;
+---
+
+<BaseLayout activePath="/" title={`${site.name} — ${site.role}`}>
+  <div class="flex flex-col w-full">
+    <section
+      class="relative w-full h-[80vh] md:h-[90vh] -mt-[8.5rem] md:-mt-20 overflow-hidden bg-primary"
+    >
+      <div class="absolute inset-0 w-full h-full">
+        <Media
+          src={heroImage}
+          alt={`${site.name} portfolio hero`}
+          class="absolute inset-0 w-full h-full opacity-70"
+        />
+        <div
+          class="absolute inset-0 bg-primary/40 mix-blend-multiply"
+          aria-hidden="true"
+        >
+        </div>
+        <div
+          class="absolute inset-0 bg-gradient-to-t from-primary via-primary/50 to-transparent"
+        >
+        </div>
+      </div>
+      <div
+        class="absolute inset-0 px-frame py-12 flex flex-col justify-end pt-32"
+      >
+        <h1
+          class="font-display text-[60px] md:text-display-xl text-on-primary uppercase tracking-tighter"
+        >
+          <span class="block">{site.firstName}</span>
+          <span class="block ml-12 md:ml-32">{site.lastName}</span>
+        </h1>
+        <div class="mt-8 flex gap-8 items-end">
+          <p
+            class="text-label-caps text-on-primary tracking-[0.2em] w-32 shrink-0"
+          >
+            Architectural<br />Portfolio
+          </p>
+          <div class="flex-grow h-px bg-on-primary/30 mb-2"></div>
+          <p class="text-label-caps text-on-primary tracking-[0.2em]">
+            {site.year}
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="w-full px-frame py-32 bg-surface">
+      <div class="grid grid-cols-4 md:grid-cols-12 gap-gutter">
+        <div class="col-span-4 md:col-span-3">
+          <h2
+            class="text-label-caps text-on-surface-variant uppercase tracking-widest [writing-mode:vertical-rl] rotate-180 md:rotate-0 md:[writing-mode:horizontal-tb]"
+          >
+            Manifesto
+          </h2>
+        </div>
+        <div class="col-span-4 md:col-span-8 md:col-start-5">
+          <p class="text-headline-lg text-on-surface leading-tight">
+            {site.manifesto}
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <FeaturedCarousel projects={featured} />
+
+    <section class="w-full px-frame py-32 bg-surface">
+      <div class="grid grid-cols-4 md:grid-cols-12 gap-y-16 md:gap-gutter">
+        <div class="col-span-4 md:col-span-5 relative">
+          <div class="w-full aspect-[3/4] bg-tertiary overflow-hidden">
+            <Media src={methodImage} alt="Methodology visual" />
+          </div>
+          <div
+            class="absolute -bottom-8 -right-8 w-48 h-48 bg-primary z-10 flex items-center justify-center p-6 hidden md:flex"
+          >
+            <p
+              class="text-label-caps text-on-primary text-center leading-relaxed"
+            >
+              Form<br />Follows<br />Function
+            </p>
+          </div>
+        </div>
+        <div
+          class="col-span-4 md:col-span-6 md:col-start-7 flex flex-col justify-center"
+        >
+          <div class="w-12 h-1 bg-tertiary mb-12"></div>
+          <h3 class="text-headline-md text-on-surface uppercase mb-8">
+            Methodology
+          </h3>
+          <p class="text-lg leading-7 text-on-surface-variant mb-12 max-w-xl">
+            {site.methodologyIntro}
+          </p>
+          <ul class="space-y-6">
+            {
+              site.methodology.map((step) => (
+                <li class="flex items-start gap-4 border-b border-tertiary/20 pb-4 last:border-0">
+                  <span class="text-label-mono text-primary w-8">
+                    {step.number}
+                  </span>
+                  <div>
+                    <h4 class="text-label-caps text-on-surface uppercase mb-1">
+                      {step.title}
+                    </h4>
+                    <p class="text-base leading-6 text-on-surface-variant">
+                      {step.body}
+                    </p>
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

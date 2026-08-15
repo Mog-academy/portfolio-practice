@@ -1,0 +1,146 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Media from "../../components/Media.astro";
+import { site } from "../../data/site";
+import { projects, getProject } from "../../data/projects";
+
+export function getStaticPaths() {
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const project = getProject(slug!);
+
+if (!project) {
+  return Astro.redirect("/projects");
+}
+---
+
+<BaseLayout
+  activePath="/projects"
+  title={`${project.title} — ${site.name}`}
+  description={project.description}
+>
+  <article class="flex flex-col w-full bg-surface">
+    <section class="w-full px-frame py-16 md:py-24 border-b border-tertiary">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-end">
+        <div class="md:col-span-8">
+          <p class="text-label-caps text-on-surface-variant mb-6">
+            Project / {project.index}
+          </p>
+          <h1 class="text-display-xl uppercase tracking-tighter text-on-surface">
+            {project.title}
+          </h1>
+        </div>
+        <div class="md:col-span-4 flex flex-col gap-3 md:items-end">
+          <span class="text-label-mono text-on-surface-variant"
+            >{project.category} / {project.location}</span
+          >
+          <span class="text-label-caps border border-tertiary px-3 py-1 w-fit"
+            >{project.year}</span
+          >
+        </div>
+      </div>
+      <p
+        class="mt-12 max-w-3xl text-lg leading-7 text-on-surface-variant font-body"
+      >
+        {project.description}
+      </p>
+    </section>
+
+    <section class="w-full px-frame py-12">
+      <div class="w-full aspect-[16/9] md:aspect-[21/9] overflow-hidden bg-tertiary">
+        <Media
+          src={project.cover}
+          alt={project.title}
+          type={project.coverType}
+          class="w-full h-full"
+        />
+      </div>
+    </section>
+
+    {
+      project.gallery.map((group) => (
+        <section class="w-full px-frame py-16">
+          <div class="mb-10 flex justify-between items-end border-b border-tertiary pb-4">
+            <span class="text-label-caps text-primary tracking-widest">
+              {group.label}
+            </span>
+            <span class="text-label-mono text-secondary">
+              {group.images.length} Frames
+            </span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+            {group.images.map((src, i) => (
+              <div
+                class:list={[
+                  "overflow-hidden bg-surface-container group relative",
+                  i % 3 === 0
+                    ? "md:col-span-8"
+                    : i % 3 === 1
+                      ? "md:col-span-4"
+                      : "md:col-span-6",
+                ]}
+              >
+                <div class="aspect-[4/3] w-full overflow-hidden">
+                  <Media
+                    src={src}
+                    alt={`${project.title} ${group.label} ${i + 1}`}
+                    class="mix-blend-multiply group-hover:scale-105"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      ))
+    }
+
+    {
+      project.videos && project.videos.length > 0 && (
+        <section class="w-full px-frame py-16">
+          <div class="mb-10 flex justify-between items-end border-b border-tertiary pb-4">
+            <span class="text-label-caps text-primary tracking-widest">
+              Motion
+            </span>
+            <span class="text-label-mono text-secondary">
+              {project.videos.length} Shots
+            </span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+            {project.videos.map((video) => (
+              <figure class="flex flex-col gap-4 border border-tertiary p-4 bg-surface-container-lowest">
+                <div class="aspect-video overflow-hidden bg-primary">
+                  <video
+                    class="w-full h-full object-cover"
+                    src={video.src}
+                    controls
+                    playsinline
+                    preload="metadata"
+                  >
+                    <track kind="captions" />
+                  </video>
+                </div>
+                <figcaption class="text-label-mono text-on-surface-variant">
+                  {video.label}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    <section class="w-full px-frame py-20 border-t border-tertiary">
+      <a
+        href="/projects"
+        class="inline-flex items-center gap-2 text-label-caps uppercase border border-primary px-8 py-4 bg-primary text-on-primary hover:bg-surface hover:text-primary transition-colors"
+      >
+        <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+        All Projects
+      </a>
+    </section>
+  </article>
+</BaseLayout>

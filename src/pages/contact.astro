@@ -1,0 +1,136 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../data/site";
+---
+
+<BaseLayout
+  activePath="/contact"
+  title={`Contact — ${site.name}`}
+  description={site.contact.intro}
+>
+  <div class="flex flex-col w-full bg-surface text-on-surface">
+    <div
+      class="px-frame py-24 md:py-48 flex flex-col md:flex-row gap-12 md:gap-24"
+    >
+      <div class="w-full md:w-5/12 flex flex-col justify-between">
+        <div>
+          <h1
+            class="text-display-xl tracking-tighter uppercase text-primary leading-none"
+          >
+            Get In<br />Touch
+          </h1>
+          <p class="mt-8 text-lg leading-7 text-on-surface-variant max-w-sm">
+            {site.contact.intro}
+          </p>
+        </div>
+      </div>
+      <div class="w-full md:w-7/12">
+        <form
+          class="flex flex-col gap-12"
+          action={`mailto:${site.contact.email}`}
+          method="get"
+          enctype="text/plain"
+        >
+          <div class="flex flex-col md:flex-row gap-12">
+            <div class="w-full md:w-1/2 flex flex-col">
+              <label class="text-label-caps text-on-surface mb-2" for="name"
+                >Name</label
+              >
+              <input
+                class="w-full bg-transparent border-b border-primary py-2 focus:outline-none focus:border-b-2 transition-all text-on-surface"
+                id="name"
+                name="name"
+                type="text"
+                required
+              />
+            </div>
+            <div class="w-full md:w-1/2 flex flex-col">
+              <label class="text-label-caps text-on-surface mb-2" for="email"
+                >Email</label
+              >
+              <input
+                class="w-full bg-transparent border-b border-primary py-2 focus:outline-none focus:border-b-2 transition-all text-on-surface"
+                id="email"
+                name="email"
+                type="email"
+                required
+              />
+            </div>
+          </div>
+          <div class="flex flex-col">
+            <label class="text-label-caps text-on-surface mb-2" for="subject"
+              >Subject</label
+            >
+            <input
+              class="w-full bg-transparent border-b border-primary py-2 focus:outline-none focus:border-b-2 transition-all text-on-surface"
+              id="subject"
+              name="subject"
+              type="text"
+            />
+          </div>
+          <div class="flex flex-col">
+            <label class="text-label-caps text-on-surface mb-2" for="message"
+              >Message</label
+            >
+            <textarea
+              class="w-full bg-transparent border-b border-primary py-2 focus:outline-none focus:border-b-2 transition-all resize-none text-on-surface"
+              id="message"
+              name="body"
+              rows="4"></textarea>
+          </div>
+          <div class="mt-8">
+            <button
+              class="bg-primary text-on-primary text-label-caps uppercase px-12 py-4 hover:bg-on-primary hover:text-primary border border-primary transition-colors"
+              type="submit"
+            >
+              Submit Inquiry
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="px-frame pb-24">
+      <div
+        class="grid grid-cols-1 md:grid-cols-4 gap-8 pt-12 border-t border-primary"
+      >
+        <div class="flex flex-col gap-2">
+          <span class="text-label-caps text-on-surface-variant uppercase"
+            >Email</span
+          >
+          <a
+            class="text-base text-primary hover:underline"
+            href={`mailto:${site.contact.email}`}>{site.contact.email}</a
+          >
+        </div>
+        <div class="flex flex-col gap-2">
+          <span class="text-label-caps text-on-surface-variant uppercase"
+            >Phone</span
+          >
+          <a
+            class="text-base text-primary hover:underline"
+            href={`tel:${site.contact.phone.replace(/\s/g, "")}`}
+            >{site.contact.phone}</a
+          >
+        </div>
+        <div class="flex flex-col gap-2">
+          <span class="text-label-caps text-on-surface-variant uppercase"
+            >Address</span
+          >
+          <span class="text-base text-primary">
+            {site.contact.address[0]}<br />{site.contact.address[1]}
+          </span>
+        </div>
+        <div class="flex flex-col gap-2">
+          <span class="text-label-caps text-on-surface-variant uppercase"
+            >Careers</span
+          >
+          <a
+            class="text-base text-primary hover:underline"
+            href={`mailto:${site.contact.careers}`}>{site.contact.careers}</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

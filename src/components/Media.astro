@@ -1,0 +1,32 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  class?: string;
+  type?: "image" | "video";
+}
+
+const { src, alt, class: className = "", type = "image" } = Astro.props;
+---
+
+{
+  type === "video" ? (
+    <video
+      class:list={["photo-treatment w-full h-full object-cover", className]}
+      src={src}
+      muted
+      playsinline
+      loop
+      autoplay
+      aria-label={alt}
+    />
+  ) : (
+    <img
+      class:list={["photo-treatment w-full h-full object-cover", className]}
+      src={src}
+      alt={alt}
+      loading="lazy"
+      decoding="async"
+    />
+  )
+}
