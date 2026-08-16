@@ -144,6 +144,34 @@ export const projects: Project[] = [
     gallery: [],
     videos: [{ src: "/media/tasees/cover.mp4", label: "Cover Sequence" }],
   },
+  {
+    slug: "flower-retail-dubai",
+    title: "Flower Retail",
+    index: "05",
+    year: "2023",
+    category: "Retail",
+    location: "Dubai",
+    featured: true,
+    span: "narrow",
+    cover: "/media/flower-retail/01.png",
+    coverType: "image",
+    description:
+      "Flower retail shop in Dubai. Completed July 2023. Project budget: 1.5M AED.",
+    gallery: [
+      {
+        id: "stills",
+        label: "Stills",
+        images: [
+          "/media/flower-retail/01.png",
+          "/media/flower-retail/02.png",
+          "/media/flower-retail/03.png",
+          "/media/flower-retail/04.png",
+          "/media/flower-retail/05.png",
+          "/media/flower-retail/06.png",
+        ],
+      },
+    ],
+  },
 ];
 
 export function getProject(slug: string) {
