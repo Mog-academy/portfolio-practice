@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Media from "../components/Media.astro";
 import { site } from "../data/site";
 import { projects } from "../data/projects";
+import { withBase } from "../lib/paths";
 
 const portrait = projects.find((p) => p.slug === "skooni")?.cover ?? "";
 const ctaBg =
@@ -128,7 +129,7 @@ const ctaBg =
         </h2>
         <a
           class="inline-flex items-center justify-center h-14 px-10 bg-on-primary text-primary text-label-caps hover:bg-surface-variant transition-colors group"
-          href="/contact"
+          href={withBase("/contact")}
         >
           {site.about.ctaLabel}
           <span

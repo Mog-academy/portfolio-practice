@@ -1,4 +1,6 @@
 ---
+import { withBase } from "../lib/paths";
+
 interface Props {
   src: string;
   alt: string;
@@ -7,13 +9,14 @@ interface Props {
 }
 
 const { src, alt, class: className = "", type = "image" } = Astro.props;
+const resolvedSrc = src.startsWith("http") ? src : withBase(src);
 ---
 
 {
   type === "video" ? (
     <video
       class:list={["photo-treatment w-full h-full object-cover", className]}
-      src={src}
+      src={resolvedSrc}
       muted
       playsinline
       loop
@@ -23,7 +26,7 @@ const { src, alt, class: className = "", type = "image" } = Astro.props;
   ) : (
     <img
       class:list={["photo-treatment w-full h-full object-cover", className]}
-      src={src}
+      src={resolvedSrc}
       alt={alt}
       loading="lazy"
       decoding="async"

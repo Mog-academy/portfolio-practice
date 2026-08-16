@@ -2,6 +2,8 @@
 
 Static architectural portfolio built with **Astro** and **Tailwind CSS v4**.
 
+**Live site:** https://mog-academy.github.io/portfolio-practice/
+
 ## Develop
 
 ```bash
@@ -16,7 +18,7 @@ npm run build
 npm run preview
 ```
 
-Output lands in `dist/`.
+Output lands in `dist/`. GitHub Actions deploys `main` to Pages automatically.
 
 ## Edit content
 
@@ -25,7 +27,7 @@ Output lands in `dist/`.
 | [`src/data/site.ts`](src/data/site.ts) | Name, manifesto, about, contact, socials |
 | [`src/data/projects.ts`](src/data/projects.ts) | Project titles, blurbs, media paths |
 
-Source media library (untouched): `Content/`. Curated site assets: `public/media/`.
+Source media library (untouched): `Content/`. Curated site assets: `public/media/` (local only; gitignored because of size).
 
 ## Design
 

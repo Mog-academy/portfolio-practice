@@ -3,6 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import Media from "../../components/Media.astro";
 import { site } from "../../data/site";
 import { projects, getProject } from "../../data/projects";
+import { withBase } from "../../lib/paths";
 
 export function getStaticPaths() {
   return projects.map((project) => ({
@@ -14,7 +15,7 @@ const { slug } = Astro.params;
 const project = getProject(slug!);
 
 if (!project) {
-  return Astro.redirect("/projects");
+  return Astro.redirect(withBase("/projects"));
 }
 ---
 
@@ -115,7 +116,7 @@ if (!project) {
                 <div class="aspect-video overflow-hidden bg-primary">
                   <video
                     class="w-full h-full object-cover"
-                    src={video.src}
+                    src={withBase(video.src)}
                     controls
                     playsinline
                     preload="metadata"
@@ -135,7 +136,7 @@ if (!project) {
 
     <section class="w-full px-frame py-20 border-t border-tertiary">
       <a
-        href="/projects"
+        href={withBase("/projects")}
         class="inline-flex items-center gap-2 text-label-caps uppercase border border-primary px-8 py-4 bg-primary text-on-primary hover:bg-surface hover:text-primary transition-colors"
       >
         <span class="material-symbols-outlined text-[18px]">arrow_back</span>

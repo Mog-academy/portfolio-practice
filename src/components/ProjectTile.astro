@@ -1,6 +1,7 @@
 ---
 import type { Project } from "../data/projects";
 import Media from "./Media.astro";
+import { withBase } from "../lib/paths";
 
 interface Props {
   project: Project;
@@ -18,7 +19,7 @@ const inverted = project.invertTile;
 ---
 
 <a
-  href={`/projects/${project.slug}`}
+  href={withBase(`/projects/${project.slug}`)}
   class:list={[
     "group flex flex-col gap-4 border border-tertiary p-6 transition-colors duration-300",
     inverted

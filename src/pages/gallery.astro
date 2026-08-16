@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Media from "../components/Media.astro";
 import { site } from "../data/site";
 import { projects } from "../data/projects";
+import { withBase } from "../lib/paths";
 
 const skooni = projects.find((p) => p.slug === "skooni")!;
 const fortune = projects.find((p) => p.slug === "fortune-bay-residences")!;
@@ -72,7 +73,7 @@ const night = skooni.gallery.find((g) => g.id === "night")?.images ?? [];
             geometry, mullion rhythm, and reflected sky.
           </p>
           <a
-            href={`/projects/${skooni.slug}`}
+            href={withBase(`/projects/${skooni.slug}`)}
             class="self-start px-8 py-3 bg-primary text-on-primary text-label-caps uppercase hover:bg-surface hover:text-primary border border-primary transition-colors"
           >
             View Project

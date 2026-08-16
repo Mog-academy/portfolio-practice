@@ -1,5 +1,6 @@
 ---
 import { site } from "../data/site";
+import { withBase } from "../lib/paths";
 
 interface Props {
   activePath?: string;
@@ -10,7 +11,7 @@ const { activePath = "/" } = Astro.props;
 
 <header class="fixed top-0 w-full z-50 bg-surface border-b border-tertiary">
   <div class="h-20 w-full px-frame flex items-center justify-between gap-4">
-    <a href="/" class="flex items-center gap-2 shrink-0">
+    <a href={withBase("/")} class="flex items-center gap-2 shrink-0">
       <span class="w-2 h-2 bg-primary block" aria-hidden="true"></span>
       <span class="font-display text-headline-md tracking-tighter uppercase">
         {site.brand}
@@ -26,7 +27,7 @@ const { activePath = "/" } = Astro.props;
               : activePath.startsWith(item.href);
           return (
             <a
-              href={item.href}
+              href={withBase(item.href)}
               aria-current={isActive ? "page" : undefined}
               class:list={[
                 "text-label-caps transition-colors",
@@ -43,7 +44,7 @@ const { activePath = "/" } = Astro.props;
     </nav>
 
     <a
-      href="/contact"
+      href={withBase("/contact")}
       class="w-8 h-8 bg-primary flex items-center justify-center shrink-0"
       aria-label="Contact"
     >
@@ -65,7 +66,7 @@ const { activePath = "/" } = Astro.props;
             : activePath.startsWith(item.href);
         return (
           <a
-            href={item.href}
+            href={withBase(item.href)}
             class:list={[
               "text-label-caps whitespace-nowrap",
               isActive ? "text-primary" : "text-on-surface-variant",

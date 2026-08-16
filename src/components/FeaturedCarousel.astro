@@ -1,6 +1,7 @@
 ---
 import type { Project } from "../data/projects";
 import Media from "./Media.astro";
+import { withBase } from "../lib/paths";
 
 interface Props {
   projects: Project[];
@@ -46,7 +47,7 @@ const { projects } = Astro.props;
       projects.map((project) => (
         <a
           class="block w-[85vw] md:w-[60vw] lg:w-[45vw] shrink-0 snap-start group"
-          href={`/projects/${project.slug}`}
+          href={withBase(`/projects/${project.slug}`)}
         >
           <div class="relative w-full aspect-[4/3] bg-tertiary overflow-hidden mb-6">
             <Media
