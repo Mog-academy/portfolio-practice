@@ -4,6 +4,9 @@ Static architectural portfolio built with **Astro** and **Tailwind CSS v4**.
 
 **Live site:** https://mog-academy.github.io/portfolio-practice/
 
+> **One-time setup:** Repo → **Settings → Pages** → Source: **Deploy from a branch** → Branch: **`gh-pages`** / `/ (root)` → Save.  
+> (GitHub Actions deploy is ready in `.github/workflows/deploy-pages.yml` but currently blocked by an org/account billing lock.)
+
 ## Develop
 
 ```bash

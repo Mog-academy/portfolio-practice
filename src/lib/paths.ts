@@ -3,5 +3,8 @@ export function withBase(path = "/"): string {
   const base = import.meta.env.BASE_URL || "/";
   if (!path || path === "/") return base;
   const normalized = path.startsWith("/") ? path : `/${path}`;
-  return `${base.replace(/\/$/, "")}${normalized}`;
+  let url = `${base.replace(/\/$/, "")}${normalized}`;
+  const isFile = /\.[a-zA-Z0-9]+$/.test(url.split("?")[0] ?? "");
+  if (!isFile && !url.endsWith("/")) url += "/";
+  return url;
 }
